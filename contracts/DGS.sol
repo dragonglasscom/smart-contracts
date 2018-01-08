@@ -13,7 +13,7 @@ contract DGS is ERC20Interface {
     mapping(address => uint256) balances;
     mapping(address => mapping (address => uint256)) allowed;
 
-    mapping (address => uint) allowedToMineDuringICO;
+    mapping (address => uint) allowedToMine;
 
     address public allocationAddressICO;
 
@@ -48,6 +48,11 @@ contract DGS is ERC20Interface {
     function balanceOf(address _owner)
     public constant returns (uint256 balance) {
         return balances[_owner];
+    }
+
+    function getAllowedToMine(address _owner)
+    public constant returns (uint _allowedToMine) {
+        return allowedToMine[_owner];
     }
 
     // Get available for mining supply
@@ -102,7 +107,7 @@ contract DGS is ERC20Interface {
     (address _sender, address _receiver, uint _transactionValue) private {
         if(_sender == allocationAddressICO) {
             // Allow to mine x10
-            allowedToMineDuringICO[_receiver] += _transactionValue * 10;
+            allowedToMine[_receiver] += _transactionValue * 10;
         } else {
             doMining(_sender, _transactionValue);
         }
@@ -111,11 +116,11 @@ contract DGS is ERC20Interface {
     function doMining(address _miner, uint _transactionValue)
     private {
         uint _minedAmount = calculteMinedCoinsForTX(_miner, _transactionValue);
-        if(allowedToMineDuringICO[_miner] <= _minedAmount) {
-            _minedAmount = allowedToMineDuringICO[_miner];
-            allowedToMineDuringICO[_miner] = 0;
+        if(allowedToMine[_miner] <= _minedAmount) {
+            _minedAmount = allowedToMine[_miner];
+            allowedToMine[_miner] = 0;
         } else {
-            allowedToMineDuringICO[_miner] -= _minedAmount;
+            allowedToMine[_miner] -= _minedAmount;
         }
         balances[_miner] += _minedAmount;
         supply += _minedAmount;
