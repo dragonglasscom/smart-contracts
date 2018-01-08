@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.18;
 
 import "./DGS.sol";
 
@@ -6,44 +6,30 @@ contract DgsICO {
 
     DGS public dgsToken;
 
-    address founder1;
-    address founder2;
+    address founder;
 
-    uint public price = 100000000000000000;
-    uint public minInvestment = 10000000000000000;
+    uint public price = 1 * 10**17;             // temp value, will be changed
+    uint public minInvestment = 1 * 10**16;     // temp value, will be changed
     uint public tokensLeft = 0;
 
-    bool offeringClosed = true;
-    bool initialOffering = true;
-
-    mapping ( uint => address) truestedContracts;
+    bool offeringClosed = false;
 
     function DgsICO( address _tokenAddress,
-        address _founder1,
-        address _founder2
-        ) public {
+        address _founder) public {
             dgsToken = DGS(_tokenAddress);
-            founder1 = _founder1;
-            founder2 = _founder2;
+            founder = _founder;
     }
 
     modifier onlyFounder {
-        require(msg.sender == founder1 ||
-            msg.sender == founder2);
+        require(msg.sender == founder);
         _;
     }
 
     // Launch the ICO
     // Should be called after "setIcoAddress()" in DGS.sol
     function launch() public onlyFounder() {
-        require(initialOffering);
+        require(!offeringClosed);
         tokensLeft = dgsToken.balanceOf(this);
-        offeringClosed = false;
-    }
-
-    function withdraw(uint amount) public onlyFounder() {
-        require(this.balance <= amount);
-        msg.sender.transfer(amount);
     }
 
     function () payable {
@@ -57,17 +43,15 @@ contract DgsICO {
         if (tokensLeft <= tokensToBeSent) {
             tokensToBeSent = tokensLeft;
             tokensLeft = 0;
+            msg.sender.transfer(_value - (tokensToBeSent * price));
             offeringClosed = true;
         }
+        else
+            tokensLeft -= tokensToBeSent;
 
-        tokensLeft -= tokensToBeSent;
+        founder.transfer(this.balance);
 
         dgsToken.transfer(msg.sender,
             tokensToBeSent);
-
-        if (offeringClosed) {
-            dgsToken.icoFinished();
-            initialOffering = false;
-        }
     }
 }
