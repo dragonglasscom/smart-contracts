@@ -131,7 +131,7 @@ contract DGS is ERC20Interface {
     function calculteMinedCoinsForTX(address _miner, uint _value)
     public returns (uint _minedAmount) {
 
-        uint stake = balanceOf(_miner) - _value;
+        uint stake = balanceOf(_miner);
 
         var _max = SafeMath.max256(_value, stake);
         var _min = SafeMath.min256(_value, stake);
