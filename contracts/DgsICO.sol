@@ -38,12 +38,12 @@ contract DgsICO {
         require(tokensLeft > 0);
         uint _value = msg.value;
 
-        uint tokensToBeSent = _value / price * 10**8;
+        uint tokensToBeSent = _value * 10**8 / price ;
 
         if (tokensLeft <= tokensToBeSent) {
             tokensToBeSent = tokensLeft;
             tokensLeft = 0;
-            msg.sender.transfer(_value - (tokensToBeSent * price));
+            msg.sender.transfer(_value - (tokensToBeSent * price / 10**8));
             offeringClosed = true;
         }
         else
