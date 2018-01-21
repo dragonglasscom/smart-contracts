@@ -8,8 +8,8 @@ contract DgsICO {
 
     address founder;
 
-    uint public price = 1 * 10**17;             // temp value, will be changed
-    uint public minInvestment = 1 * 10**16;     // temp value, will be changed
+    uint public price = 1 * 10**16;             // temp value, will be changed
+    uint public minInvestment = 1 * 10**15;     // temp value, will be changed
     uint public tokensLeft = 0;
 
     bool offeringClosed = false;
@@ -30,6 +30,10 @@ contract DgsICO {
     function launch() public onlyFounder() {
         require(!offeringClosed);
         tokensLeft = dgsToken.balanceOf(this);
+    }
+
+    function stop() public onlyFounder() {
+        offeringClosed = false;
     }
 
     function () payable {
