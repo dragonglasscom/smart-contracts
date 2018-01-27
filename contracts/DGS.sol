@@ -147,9 +147,5 @@ contract DGS is ERC20Interface {
         _minedAmount = factorInCoins *  miningPercentage / decimalIndex;
     }
 
-    function setmineableSupply() private {
-        mineableSupply +=  1111111111  * decimalIndex;
-    }
-
     event Mined(address indexed _miner, uint256 _minedAmount);
 }
