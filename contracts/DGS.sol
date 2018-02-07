@@ -3,11 +3,12 @@ pragma solidity ^0.4.18;
 import "./ERC20Interface.sol";
 import "./SafeMath.sol";
 
+
 contract DGS is ERC20Interface {
 
-    string public constant name = "Dragonglass";
-    string public constant symbol = "DGS";
-    uint public constant decimals = 8;
+    string public constant NAME = "Dragonglass";
+    string public constant SYMBOL = "DGS";
+    uint public constant DECIMALS = 8;
 
     uint256 supply = 0;
     mapping(address => uint256) balances;
@@ -21,12 +22,13 @@ contract DGS is ERC20Interface {
 
     address founder;
 
-    // Miner constants
-    uint public constant decimalIndex = 10**decimals;
 
+    uint public constant DECIMAL_INDEX = 10**DECIMALS;
+
+    // Miner constants
     //Represents constant 0,25892541
-    uint private constant miningPercentage = 25892541 * decimalIndex / (10**8);
-    uint private constant stakePercentage = 5 * decimalIndex / 100;
+    uint private constant MINING_PERCENTAGE = 25892541;
+    uint private constant stakePercentage = 5 * DECIMAL_INDEX / 100;
 
     function DGS (uint256 _initial,
         address _founder) public {
@@ -103,6 +105,25 @@ contract DGS is ERC20Interface {
         balances[allocationAddressICO] = totalSupply();
     }
 
+    function calculateMinedCoinsForTX(uint stake, uint _value)
+    public pure returns (uint _minedAmount) {
+
+        var _max = SafeMath.max256(_value, stake);
+        var _min = SafeMath.min256(_value, stake);
+
+        uint factor = _min * DECIMAL_INDEX /_max;
+
+        if(_value > stake)
+            factor += factor * stakePercentage / DECIMAL_INDEX;
+        if(factor > DECIMAL_INDEX)
+            factor = DECIMAL_INDEX;
+
+        var totalStake = stake + _value;
+        var factorInCoins = totalStake * factor / DECIMAL_INDEX;
+
+        _minedAmount = factorInCoins *  MINING_PERCENTAGE / DECIMAL_INDEX;
+    }
+
     function mine
     (address _sender, address _receiver, uint _transactionValue) private {
         if(_sender == allocationAddressICO) {
@@ -115,7 +136,7 @@ contract DGS is ERC20Interface {
 
     function doMining(address _miner, uint _transactionValue)
     private {
-        uint _minedAmount = calculteMinedCoinsForTX(balanceOf(_miner), _transactionValue);
+        uint _minedAmount = calculateMinedCoinsForTX(balanceOf(_miner), _transactionValue);
         if(allowedToMine[_miner] <= _minedAmount) {
             _minedAmount = allowedToMine[_miner];
             allowedToMine[_miner] = 0;
@@ -126,25 +147,6 @@ contract DGS is ERC20Interface {
         supply += _minedAmount;
         mineableSupply -= _minedAmount;
         Mined(_miner, _minedAmount);
-    }
-
-    function calculteMinedCoinsForTX(uint stake, uint _value)
-    public constant returns (uint _minedAmount) {
-
-        var _max = SafeMath.max256(_value, stake);
-        var _min = SafeMath.min256(_value, stake);
-
-        uint factor = _min * decimalIndex /_max;
-
-        if(_value > stake)
-            factor += factor * stakePercentage / decimalIndex;
-        if(factor > decimalIndex)
-            factor = decimalIndex;
-
-        var totalStake = stake + _value;
-        var factorInCoins = totalStake * factor / decimalIndex;
-
-        _minedAmount = factorInCoins *  miningPercentage / decimalIndex;
     }
 
     event Mined(address indexed _miner, uint256 _minedAmount);

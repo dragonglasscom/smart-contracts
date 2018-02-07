@@ -1,6 +1,7 @@
 pragma solidity ^0.4.18;
 
 import "./DGS.sol";
+import "./SafeMath.sol";
 
 contract DgsICO {
 
@@ -8,21 +9,62 @@ contract DgsICO {
 
     address founder;
 
-    uint public price = 27 * 10**12;
-    uint public minInvestment = 1 * 10**15;
-    uint public maxInvestment = 1 * 10**19;
+    uint public constant PRICE = 27 * 10**12;
+    uint public constant MIN_INVESTMENT = 1 * 10**15;
+    uint public constant MAX_INVESTMENT = 1 * 10**19;
+    uint public constant DECIMALS = 8;
+    uint public constant DECIMAL_INDEX = 10**DECIMALS;
+
     uint public tokensLeft = 0;
 
     bool offeringClosed = false;
+    bool offeringPaused = false;
 
     mapping (address => bool) validators;
     mapping (address => bool) verified;
     mapping (address => uint) investedAmount;
 
-    function DgsICO( address _tokenAddress,
+    function DgsICO(address _tokenAddress,
         address _founder) public {
             dgsToken = DGS(_tokenAddress);
             founder = _founder;
+    }
+
+    function () public payable {
+        require(!offeringClosed && !offeringPaused);
+        require(msg.value >= MIN_INVESTMENT);
+
+        require(investedAmount[msg.sender] + msg.value <= MAX_INVESTMENT
+             || verified[msg.sender]);
+
+        uint tokensToBeSent = msg.value * DECIMAL_INDEX / PRICE;
+
+        if (tokensLeft <= tokensToBeSent) {
+            tokensToBeSent = tokensLeft;
+            tokensLeft = 0;
+            msg.sender.transfer(msg.value - (tokensToBeSent * PRICE / DECIMAL_INDEX));
+            offeringClosed = true;
+        }
+        else
+            tokensLeft -= tokensToBeSent;
+
+        founder.transfer(this.balance);
+
+        dgsToken.transfer(msg.sender,
+            tokensToBeSent);
+
+        investedAmount[msg.sender] += tokensToBeSent * PRICE / DECIMAL_INDEX;
+    }
+
+    function getLeftInvestmentAllowance(address _address)
+    public constant returns (uint _leftInvestmentAllowance) {
+
+        if(verified[_address]) {
+          _leftInvestmentAllowance = tokensLeft * PRICE;
+        } else {
+            _leftInvestmentAllowance = SafeMath.min256(tokensLeft * PRICE,
+              MAX_INVESTMENT - investedAmount[_address]);
+        }
     }
 
     modifier onlyFounder {
@@ -42,8 +84,12 @@ contract DgsICO {
         tokensLeft = dgsToken.balanceOf(this);
     }
 
-    function stop() public onlyFounder() {
-        offeringClosed = false;
+    function pause() public onlyFounder() {
+        offeringPaused = true;
+    }
+
+    function resume() public onlyFounder() {
+        offeringPaused = false;
     }
 
     function addValidator(address _validator)
@@ -64,31 +110,5 @@ contract DgsICO {
     function removeVerifiedAddress(address _address)
     public onlyValidator() {
         verified[_address] = false;
-    }
-
-    function () payable {
-        require(!offeringClosed);
-        require(msg.value >= minInvestment);
-
-        require(investedAmount[msg.sender] + msg.value <= maxInvestment
-             || verified[msg.sender]);
-
-        uint tokensToBeSent = msg.value * 10**8 / price ;
-
-        if (tokensLeft <= tokensToBeSent) {
-            tokensToBeSent = tokensLeft;
-            tokensLeft = 0;
-            msg.sender.transfer(msg.value - (tokensToBeSent * price / 10**8));
-            offeringClosed = true;
-        }
-        else
-            tokensLeft -= tokensToBeSent;
-
-        founder.transfer(this.balance);
-
-        dgsToken.transfer(msg.sender,
-            tokensToBeSent);
-
-        investedAmount[msg.sender] += tokensToBeSent * price / 10**8;
     }
 }

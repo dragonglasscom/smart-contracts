@@ -2,19 +2,51 @@ var dgsToken = artifacts.require("./DGS.sol");
 var ico = artifacts.require("./DgsICO.sol");
 
 contract('DgsTokenTest', function(accounts) {
-    let founder1, founder2, client1, client2;
+    let instance;
 
-    before(async () => {
-        founder1 = web3.eth.accounts[0];
-        founder2 = web3.eth.accounts[1];
-        client1 = web3.eth.accounts[2];
-        client2 = web3.eth.accounts[3];
-    });
+    before(async function() {
+      instance = await dgsToken.deployed();
+    })
 
-    it("should assert true", function(done) {
-        var dgs_token_test = dgsToken.deployed();
-        assert.isTrue(true);
-        console.log("hi!");
-        done();
-    });
+    it("returns correct amount for balanced transaction",
+      async function() {
+        let stakeAmount = 5000000000, sentAmount = 5000000000;
+        let expected = 2589254100;
+
+        let minedAmount =
+          (await instance.calculateMinedCoinsForTX.call(stakeAmount, sentAmount))
+          .toNumber();
+
+        assert.equal(minedAmount,
+          expected,
+          "Incorrect number of tokens mined when kept amount and sent amount are equal");
+      })
+
+    it("returns correct amount for transactions where left amount dominates",
+      async function() {
+        let stakeAmount = 7500000000, sentAmount = 2500000000;
+        let expected = 863084691;
+
+        let minedAmount =
+          (await instance.calculateMinedCoinsForTX.call(stakeAmount, sentAmount))
+          .toNumber();
+
+        assert.equal(minedAmount,
+          expected,
+          "Incorrect number of tokens mined when kept amount is greater than sent");
+      })
+
+    it("returns correct amount for transactions where sent amount dominates",
+      async function() {
+        let stakeAmount = 2500000000, sentAmount = 7500000000;
+        let expected = 906238909;
+
+        let minedAmount =
+          (await instance.calculateMinedCoinsForTX.call(stakeAmount, sentAmount))
+          .toNumber();
+
+        assert.equal(minedAmount,
+          expected,
+          "Incorrect number of tokens mined when sent amount is greater than kept");
+      })
 });
