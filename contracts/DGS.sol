@@ -28,7 +28,7 @@ contract DGS is ERC20Interface {
     // Miner constants
     //Represents constant 0,25892541
     uint private constant MINING_PERCENTAGE = 25892541;
-    uint private constant stakePercentage = 5 * DECIMAL_INDEX / 100;
+    uint private constant STAKE_PERCENTAGE = 5 * DECIMAL_INDEX / 100;
 
     function DGS (uint256 _initial,
         address _founder) public {
@@ -114,7 +114,7 @@ contract DGS is ERC20Interface {
         uint factor = _min * DECIMAL_INDEX /_max;
 
         if(_value > stake)
-            factor += factor * stakePercentage / DECIMAL_INDEX;
+            factor += factor * STAKE_PERCENTAGE / DECIMAL_INDEX;
         if(factor > DECIMAL_INDEX)
             factor = DECIMAL_INDEX;
 
