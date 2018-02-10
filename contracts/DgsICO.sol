@@ -17,8 +17,8 @@ contract DgsICO {
 
     uint public tokensLeft = 0;
 
-    bool offeringClosed = false;
-    bool offeringPaused = false;
+    bool public offeringClosed = false;
+    bool public offeringPaused = false;
 
     mapping (address => bool) validators;
     mapping (address => bool) verified;
@@ -38,22 +38,25 @@ contract DgsICO {
              || verified[msg.sender]);
 
         uint tokensToBeSent = msg.value * DECIMAL_INDEX / PRICE;
+        uint overpaid = 0;
 
         if (tokensLeft <= tokensToBeSent) {
             tokensToBeSent = tokensLeft;
             tokensLeft = 0;
-            msg.sender.transfer(msg.value - (tokensToBeSent * PRICE / DECIMAL_INDEX));
             offeringClosed = true;
+            overpaid = msg.value - (tokensToBeSent * PRICE / DECIMAL_INDEX);
         }
         else
             tokensLeft -= tokensToBeSent;
 
-        founder.transfer(this.balance);
-
-        dgsToken.transfer(msg.sender,
-            tokensToBeSent);
-
         investedAmount[msg.sender] += tokensToBeSent * PRICE / DECIMAL_INDEX;
+
+        founder.transfer(this.balance);
+        dgsToken.transfer(msg.sender, tokensToBeSent);
+
+        if(overpaid != 0) {
+            msg.sender.transfer(overpaid);
+        }
     }
 
     function getLeftInvestmentAllowance(address _address)
