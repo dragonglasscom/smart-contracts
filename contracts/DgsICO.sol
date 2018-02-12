@@ -49,7 +49,7 @@ contract DgsICO {
         else
             tokensLeft -= tokensToBeSent;
 
-        investedAmount[msg.sender] += tokensToBeSent * PRICE / DECIMAL_INDEX;
+        investedAmount[msg.sender] += msg.value - overpaid;
 
         founder.transfer(this.balance);
         dgsToken.transfer(msg.sender, tokensToBeSent);
