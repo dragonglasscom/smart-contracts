@@ -10,7 +10,7 @@ contract DgsICO {
     address founder;
 
     uint public constant PRICE = 27 * 10**12;
-    uint public constant MIN_INVESTMENT = 1 * 10**15;
+    uint public constant MIN_INVESTMENT = 5 * 10**16;
     uint public constant MAX_INVESTMENT = 1 * 10**19;
     uint public constant DECIMALS = 8;
     uint public constant DECIMAL_INDEX = 10**DECIMALS;
