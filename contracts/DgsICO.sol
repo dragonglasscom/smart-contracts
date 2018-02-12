@@ -18,7 +18,7 @@ contract DgsICO {
     uint public tokensLeft = 0;
 
     bool public offeringClosed = false;
-    bool public offeringPaused = false;
+    bool public offeringPaused = true;
 
     mapping (address => bool) validators;
     mapping (address => bool) verified;
@@ -84,6 +84,7 @@ contract DgsICO {
     // Should be called after "setIcoAddress()" in DGS.sol
     function launch() public onlyFounder() {
         require(!offeringClosed);
+        offeringPaused = false;
         tokensLeft = dgsToken.balanceOf(this);
     }
 
