@@ -51,7 +51,7 @@ contract DgsICO {
 
         investedAmount[msg.sender] += msg.value - overpaid;
 
-        founder.transfer(this.balance);
+        founder.transfer(this.balance - overpaid);
         dgsToken.transfer(msg.sender, tokensToBeSent);
 
         if(overpaid != 0) {
