@@ -63,9 +63,9 @@ contract DgsICO {
     public constant returns (uint _leftInvestmentAllowance) {
 
         if(verified[_address]) {
-          _leftInvestmentAllowance = tokensLeft * PRICE;
+          _leftInvestmentAllowance = tokensLeft * PRICE / DECIMAL_INDEX;
         } else {
-            _leftInvestmentAllowance = SafeMath.min256(tokensLeft * PRICE,
+            _leftInvestmentAllowance = SafeMath.min256(tokensLeft * PRICE / DECIMAL_INDEX,
               MAX_INVESTMENT - investedAmount[_address]);
         }
     }
