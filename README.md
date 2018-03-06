@@ -7,6 +7,7 @@ smart contract used to sell DGS tokens during Token Generation Event (DgsICO.sol
 - Type: ERC20
 - Symbol: DGS
 - Decimal: 8
+- Address: 0x6aEDbF8dFF31437220dF351950Ba2a3362168d1b
 
 ## Dependencies
   - Truffle
