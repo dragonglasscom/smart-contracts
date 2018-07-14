@@ -4,10 +4,10 @@ import "../Skin.sol";
 
 contract Witcher is Skin {
 
-    string public name = "Witcher";
-    string public symbol = "DMWB";
+    string public name = "King";
+    string public symbol = "DMKA";
     uint public decimals = 0;
-    uint public INITIAL_SUPPLY = 15 * (10 ** decimals);
+    uint public INITIAL_SUPPLY = 1 * (10 ** decimals);
 
     constructor(string _assetUrl) public {
         skinRarity = Rarity.Legendary;
