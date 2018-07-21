@@ -5,7 +5,7 @@ import "../Skin.sol";
 contract GlowingMushroom is Skin {
 
     string public name = "Glowing Mushroom";
-    string public symbol = "DMGB";
+    string public symbol = "DMGA";
     uint public decimals = 0;
     uint public INITIAL_SUPPLY = 30 * (10 ** decimals);
 

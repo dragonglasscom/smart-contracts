@@ -6,10 +6,10 @@ var Prince = artifacts.require("./skins/Prince.sol");
 var SilverPickaxe = artifacts.require("./skins/SilverPickaxe.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Witcher, "");
-  deployer.deploy(WhiteWitcher, "");
-  deployer.deploy(Kind, "");
-  deployer.deploy(GlowingMushroom, "");
-  deployer.deploy(Prince, "");
-  deployer.deploy(SilverPickaxe, "");
+  //deployer.deploy(Witcher, "https://dragonglass.com/i/DMWB.png");
+  //deployer.deploy(WhiteWitcher, "https://dragonglass.com/i/DMWA.png");
+  //deployer.deploy(King, "https://dragonglass.com/i/DMKA.png");
+  //deployer.deploy(GlowingMushroom, "https://dragonglass.com/i/DMGA.png");
+  deployer.deploy(Prince, "https://dragonglass.com/i/DMPA.png");
+  deployer.deploy(SilverPickaxe, "https://dragonglass.com/i/DMSA.png");
 };

@@ -2,7 +2,7 @@ pragma solidity ^0.4.23;
 
 import "../Skin.sol";
 
-contract Witcher is Skin {
+contract King is Skin {
 
     string public name = "King";
     string public symbol = "DMKA";

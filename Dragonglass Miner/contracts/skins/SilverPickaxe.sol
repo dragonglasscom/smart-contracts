@@ -5,7 +5,7 @@ import "../Skin.sol";
 contract SilverPickaxe is Skin {
 
     string public name = "Silver Pickaxe";
-    string public symbol = "DMSB";
+    string public symbol = "DMSA";
     uint public decimals = 0;
     uint public INITIAL_SUPPLY = 100 * (10 ** decimals);
 

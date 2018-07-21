@@ -66,7 +66,6 @@ contract SkinsStore is Ownable {
 
         emit Sell(symbol, amount);
         return true;
-
     }
 
     function buyTokenForDgs(string symbol, uint amount, address receiver)
