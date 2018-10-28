@@ -4,9 +4,9 @@
 .DS_Store
 
 # Truffle
-/build
-contracts/.placeholder
-test/.placeholder
+*/build
+*/contracts/.placeholder
+*/test/.placeholder
 
 # Keys (mnemonics, private keys)
 *.key

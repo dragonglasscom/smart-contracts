@@ -193,7 +193,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 832,
+                        "referencedDeclaration": 1526,
                         "src": "150:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -279,7 +279,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 832,
+                        "referencedDeclaration": 1526,
                         "src": "201:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -843,7 +843,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 832,
+                        "referencedDeclaration": 1526,
                         "src": "150:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -929,7 +929,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 832,
+                        "referencedDeclaration": 1526,
                         "src": "201:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1374,32 +1374,7 @@
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {
-    "1": {
-      "events": {},
-      "links": {},
-      "address": "0xf76686a02864e97f025d5b0794ea160a6fc14810",
-      "transactionHash": "0x0dc35a6233566559a9c35aa282f74eee271b523d3cb9d01401608a81e451db64"
-    },
-    "3": {
-      "events": {},
-      "links": {},
-      "address": "0x97ad1f2d5b9520f515c3f1d3fb13194fdf75fdfa",
-      "transactionHash": "0x88cb3c0f43c75522c71a4444ba82fdd05261c18a73fc4f734f557d09cc81f593"
-    },
-    "4447": {
-      "events": {},
-      "links": {},
-      "address": "0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f",
-      "transactionHash": "0x21b4dc3b97d161f94336bf3021b229b7b78500c9a997d00b010b2f10f50a9396"
-    },
-    "5777": {
-      "events": {},
-      "links": {},
-      "address": "0xd12bf38cda90d15c9f4c0eb9cee190986124b420",
-      "transactionHash": "0x680393eff14ddc48b096e96b8c9a802c2e08fa9e82296f2cbf0107341a1f1536"
-    }
-  },
+  "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-07-20T12:49:58.391Z"
+  "updatedAt": "2018-10-28T20:32:43.618Z"
 }
