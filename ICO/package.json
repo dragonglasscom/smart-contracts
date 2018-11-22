@@ -1,0 +1,18 @@
+{
+  "name": "ICO",
+  "version": "1.0.0",
+  "description": "This repository holds the source code of the ERC20 Dragonglass Token (DGS) smart contract and smart contract used to sell DGS tokens during Token Generation Event (DgsICO.sol).",
+  "main": "truffle-config 2.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "truffle-hdwallet-provider": "0.0.6"
+  }
+}
