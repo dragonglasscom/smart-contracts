@@ -5,6 +5,8 @@ var GlowingMushroom = artifacts.require("./skins/GlowingMushroom.sol");
 var Prince = artifacts.require("./skins/Prince.sol");
 var SilverPickaxe = artifacts.require("./skins/SilverPickaxe.sol");
 var JackPumkinhead = artifacts.require("./skins/JackPumkinhead.sol");
+var Masquerade = artifacts.require("./skins/Masquerade.sol");
+var OldMan = artifacts.require("./skins/OldMan.sol");
 
 module.exports = function(deployer) {
   deployer.deploy(Witcher, "https://dragonglass.com/i/DMWB.png");
@@ -14,4 +16,6 @@ module.exports = function(deployer) {
   deployer.deploy(Prince, "https://dragonglass.com/i/DMPA.png");
   deployer.deploy(SilverPickaxe, "https://dragonglass.com/i/DMSA.png");
   deployer.deploy(JackPumkinhead, "https://dragonglass.com/i/DMJA.png");
+  deployer.deploy(Masquerade, "https://dragonglass.com/i/DMJA.png");
+  deployer.deploy(OldMan, "https://dragonglass.com/i/DMJA.png");
 };
